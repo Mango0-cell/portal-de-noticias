@@ -1,0 +1,39 @@
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  reactCompiler: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.*',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.*.*',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.*.*.*',
+      },
+      {
+        protocol: 'http',
+        hostname: '*',
+      },
+      {
+        protocol: 'http',
+        hostname: '*.*',
+      },
+      {
+        protocol: 'http',
+        hostname: '*.*.*',
+      },
+    ],
+  },
+};
+
+export default nextConfig;
