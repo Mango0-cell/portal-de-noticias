@@ -105,7 +105,7 @@ export default function Pagination({
               {page}
             </Button>
           ) : (
-            <span key={index} className="px-2 text-slate-500">
+            <span key={index} className="px-2 text-muted">
               {page}
             </span>
           )

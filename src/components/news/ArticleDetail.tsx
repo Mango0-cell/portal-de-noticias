@@ -2,11 +2,12 @@
 
 import Link from 'next/link';
 import LazyImage from '@/components/common/LazyImage';
-import { TransformedArticle } from '@/types';
+import { NewsArticle } from '@/types';
 import { formatDate } from '@/lib/utils';
+import { PLACEHOLDER_IMAGE } from '@/constants';
 
 interface ArticleDetailProps {
-  article: TransformedArticle;
+  article: NewsArticle;
 }
 
 export default function ArticleDetail({ article }: ArticleDetailProps) {
@@ -44,9 +45,9 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
     <article className="max-w-4xl mx-auto">
       {/* Breadcrumb */}
       <nav className="mb-6" aria-label="Breadcrumb">
-        <ol className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-500">
+        <ol className="flex items-center gap-2 text-sm text-muted">
           <li>
-            <Link href="/" className="hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+            <Link href="/" className="hover:text-primary transition-colors">
               Home
             </Link>
           </li>
@@ -55,7 +56,7 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </li>
-          <li className="text-slate-900 dark:text-white truncate max-w-[200px] sm:max-w-[400px]">
+          <li className="text-foreground truncate max-w-[200px] sm:max-w-[400px]">
             {article.title}
           </li>
         </ol>
@@ -63,40 +64,40 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
 
       {/* Header */}
       <header className="mb-8">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white mb-4 leading-tight">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 leading-tight">
           {article.title}
         </h1>
 
         {/* Meta Info */}
-        <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400 mb-6">
+        <div className="flex flex-wrap items-center gap-4 text-sm text-secondary mb-6">
           <span className="flex items-center gap-1">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
             </svg>
-            {article.sourceTitle}
+            {article.source?.title || 'Unknown Source'}
           </span>
-          <time dateTime={article.publishedAt} className="flex items-center gap-1">
+          <time dateTime={article.dateTime} className="flex items-center gap-1">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
-            {formatDate(article.publishedAt)}
+            {formatDate(article.dateTime)}
           </time>
-          {article.authors.length > 0 && (
+          {article.authors && article.authors.length > 0 && (
             <span className="flex items-center gap-1">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
-              {article.authors.join(', ')}
+              {article.authors.map(a => a.name).join(', ')}
             </span>
           )}
         </div>
 
         {/* Share Buttons */}
         <div className="flex items-center gap-2">
-          <span className="text-sm text-slate-500 mr-2">Share:</span>
+          <span className="text-sm text-muted mr-2">Share:</span>
           <button
             onClick={() => handleShare('twitter')}
-            className="p-2 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:bg-[#1DA1F2] hover:text-white hover:border-transparent transition-all"
+            className="p-2 rounded-full bg-card-bg border border-card-border text-muted hover:bg-[#1DA1F2] hover:text-white hover:border-transparent transition-all"
             aria-label="Share on Twitter"
           >
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -105,7 +106,7 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
           </button>
           <button
             onClick={() => handleShare('facebook')}
-            className="p-2 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:bg-[#1877F2] hover:text-white hover:border-transparent transition-all"
+            className="p-2 rounded-full bg-card-bg border border-card-border text-muted hover:bg-[#1877F2] hover:text-white hover:border-transparent transition-all"
             aria-label="Share on Facebook"
           >
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -114,7 +115,7 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
           </button>
           <button
             onClick={() => handleShare('linkedin')}
-            className="p-2 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:bg-[#0A66C2] hover:text-white hover:border-transparent transition-all"
+            className="p-2 rounded-full bg-card-bg border border-card-border text-muted hover:bg-[#0A66C2] hover:text-white hover:border-transparent transition-all"
             aria-label="Share on LinkedIn"
           >
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -123,7 +124,7 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
           </button>
           <button
             onClick={() => handleShare('copy')}
-            className="p-2 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:bg-blue-600 hover:text-white hover:border-transparent transition-all"
+            className="p-2 rounded-full bg-card-bg border border-card-border text-muted hover:bg-primary hover:text-white hover:border-transparent transition-all"
             aria-label="Copy link"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -134,9 +135,9 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
       </header>
 
       {/* Hero Image */}
-      <div className="relative aspect-video rounded-xl overflow-hidden mb-8 ring-1 ring-slate-200 dark:ring-white/10">
+      <div className="relative aspect-video rounded-xl overflow-hidden mb-8 ring-1 ring-card-border">
         <LazyImage
-          src={article.imageUrl}
+          src={article.image || PLACEHOLDER_IMAGE}
           alt={article.title}
           fill
           priority
@@ -146,21 +147,21 @@ export default function ArticleDetail({ article }: ArticleDetailProps) {
 
       {/* Article Content */}
       <div className="prose prose-lg prose-slate dark:prose-invert max-w-none">
-        <div className="text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">
-          {article.content}
+        <div className="text-secondary leading-relaxed whitespace-pre-wrap">
+          {article.body}
         </div>
       </div>
 
       {/* Source Link */}
       {article.url && (
-        <div className="mt-8 pt-6 border-t border-slate-200 dark:border-white/10">
+        <div className="mt-8 pt-6 border-t border-card-border">
           <a
             href={article.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
+            className="inline-flex items-center gap-2 text-primary hover:text-primary-hover transition-colors"
           >
-            <span>Read original article on {article.sourceTitle}</span>
+            <span>Read original article on {article.source?.title || 'source'}</span>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>

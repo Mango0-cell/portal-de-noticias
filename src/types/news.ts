@@ -17,8 +17,8 @@ export interface NewsArticle {
   image: string;
   eventUri: string | null;
   sentiment: number | null;
-  wgt: number;
-  relevance: number;
+  wgt?: number;
+  relevance?: number;
 }
 
 export interface NewsSource {
@@ -34,13 +34,22 @@ export interface Author {
   isAgency: boolean;
 }
 
-export interface NewsApiResponse {
+// Response for getArticles endpoint
+export interface GetArticlesResponse {
   articles: {
     results: NewsArticle[];
     totalResults: number;
     page: number;
     count: number;
     pages: number;
+  };
+}
+
+// Response for getArticle endpoint (single article)
+// Structure: { "articleUri": { "info": NewsArticle } }
+export interface GetArticleResponse {
+  [key: string]: {
+    info: NewsArticle;
   };
 }
 
@@ -59,17 +68,16 @@ export interface Category {
   uri: string;
 }
 
-// Transformed article for UI consumption
-export interface TransformedArticle {
-  id: string;
-  title: string;
-  description: string;
-  content: string;
-  imageUrl: string;
-  sourceTitle: string;
-  sourceUri: string;
-  publishedAt: string;
-  url: string;
-  authors: string[];
-  category?: string;
+// Suggested category from Event Registry API
+export interface SuggestedCategory {
+  uri: string;
+  label: string;
+  parentUri?: string;
+}
+
+// Paginated response for UI
+export interface PaginatedArticles {
+  articles: NewsArticle[];
+  totalResults: number;
+  totalPages: number;
 }

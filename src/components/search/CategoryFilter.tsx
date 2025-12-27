@@ -1,7 +1,7 @@
 'use client';
 
-import { useCallback } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { CATEGORIES } from '@/constants';
 import { cn } from '@/lib/utils';
 
@@ -10,9 +10,9 @@ interface CategoryFilterProps {
 }
 
 export default function CategoryFilter({ className }: CategoryFilterProps) {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const activeCategory = searchParams.get('category') || 'all';
+  const lastPushedParams = useRef<string>(searchParams.toString());
 
   const handleCategoryChange = useCallback(
     (categoryId: string) => {
@@ -27,9 +27,21 @@ export default function CategoryFilter({ className }: CategoryFilterProps) {
       // Reset to page 1 when changing category
       params.delete('page');
       
-      router.push(`/search?${params.toString()}`, { scroll: false });
+      const newParamsString = params.toString();
+      
+      // Deep comparison: avoid update if params haven't changed
+      if (newParamsString === lastPushedParams.current) {
+        return;
+      }
+      
+      // Use window.history to avoid hard refresh/rerender
+      window.history.pushState(null, '', `/search?${newParamsString}`);
+      lastPushedParams.current = newParamsString;
+      
+      // Dispatch a custom event to notify SearchResults of the change
+      window.dispatchEvent(new CustomEvent('categoryChange', { detail: { categoryId } }));
     },
-    [router, searchParams]
+    [searchParams]
   );
 
   return (
@@ -41,8 +53,8 @@ export default function CategoryFilter({ className }: CategoryFilterProps) {
           className={cn(
             'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 border',
             activeCategory === category.id
-              ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-500/25'
-              : 'bg-transparent text-slate-600 dark:text-slate-300 border-slate-300 dark:border-white/20 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white hover:border-slate-400 dark:hover:border-white/30'
+              ? 'bg-primary text-white border-primary shadow-lg shadow-primary/25'
+              : 'bg-transparent text-secondary border-card-border hover:bg-card-bg hover:text-foreground hover:border-secondary/50'
           )}
           aria-pressed={activeCategory === category.id}
         >

@@ -41,7 +41,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors">
+    <div className="min-h-screen bg-background transition-colors">
       {/* Hero Section */}
       <section 
         className="relative min-h-[600px] md:min-h-[70vh] flex items-center justify-center"
@@ -149,11 +149,11 @@ export default function HomePage() {
       {/* Featured News Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground">
             Featured Stories
           </h2>
           {data && (
-            <span className="text-slate-600 dark:text-slate-400 text-sm">
+            <span className="text-secondary text-sm">
               {data.totalResults.toLocaleString('en-US')} articles available
             </span>
           )}
@@ -170,8 +170,8 @@ export default function HomePage() {
 
         {/* Error State */}
         {isError && (
-          <div className="text-center py-12 bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-slate-200 dark:border-white/10 rounded-2xl">
-            <div className="w-16 h-16 mx-auto mb-4 text-red-500 dark:text-red-400">
+          <div className="text-center py-12 bg-card-bg backdrop-blur-sm border border-card-border rounded-2xl">
+            <div className="w-16 h-16 mx-auto mb-4 text-error">
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
@@ -181,15 +181,15 @@ export default function HomePage() {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
+            <h3 className="text-lg font-semibold text-foreground mb-2">
               Error loading news
             </h3>
-            <p className="text-slate-600 dark:text-slate-400 mb-4">
+            <p className="text-secondary mb-4">
               We couldn&apos;t load the news. Please try again.
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+              className="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary-hover transition-colors"
             >
               Retry
             </button>

@@ -23,7 +23,7 @@ export default function Skeleton({ className, variant = 'rectangular', width, he
 
   return (
     <div
-      className={cn('bg-slate-200 dark:bg-slate-700/50 animate-pulse', variants[variant], className)}
+      className={cn('bg-card-border/50 animate-pulse', variants[variant], className)}
       style={style}
       aria-hidden="true"
     />
@@ -33,7 +33,7 @@ export default function Skeleton({ className, variant = 'rectangular', width, he
 // Pre-built skeleton components for common use cases
 export function NewsCardSkeleton() {
   return (
-    <div className="bg-white dark:bg-slate-800/40 border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden">
+    <div className="bg-card-bg border border-card-border rounded-2xl overflow-hidden">
       <Skeleton height={200} className="rounded-none" />
       <div className="p-5 space-y-3">
         <Skeleton variant="text" height={12} width="30%" />

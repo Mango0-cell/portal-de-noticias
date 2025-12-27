@@ -1,10 +1,10 @@
 'use client';
 
 import NewsCard from './NewsCard';
-import { TransformedArticle } from '@/types';
+import { NewsArticle } from '@/types';
 
 interface NewsListProps {
-  articles: TransformedArticle[];
+  articles: NewsArticle[];
   priorityCount?: number;
 }
 
@@ -36,7 +36,7 @@ export default function NewsList({ articles, priorityCount = 0 }: NewsListProps)
     <div className="space-y-6">
       {articles.map((article, index) => (
         <NewsCard
-          key={article.id}
+          key={article.uri}
           article={article}
           priority={index < priorityCount}
         />

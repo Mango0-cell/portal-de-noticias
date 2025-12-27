@@ -70,7 +70,7 @@ export default function ThemeToggle() {
   if (!mounted) {
     return (
       <button
-        className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700"
+        className="p-2 rounded-lg bg-card-bg border border-card-border"
         aria-label="Toggle theme"
         disabled
       >
@@ -82,7 +82,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={handleToggle}
-      className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+      className="p-2 rounded-lg bg-card-bg border border-card-border hover:bg-card-border/50 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
     >

@@ -44,8 +44,8 @@ export function truncateText(text: string, maxLength: number): string {
 }
 
 // Generate article URL
-export function getArticleUrl(id: string): string {
-  return `/article/${encodeURIComponent(id)}`;
+export function getArticleUrl(uri: string): string {
+  return `/article/${encodeURIComponent(uri)}`;
 }
 
 // Debounce function

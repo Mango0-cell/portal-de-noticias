@@ -17,7 +17,7 @@ export default function ArticleError({
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="max-w-md mx-auto text-center">
-        <div className="w-16 h-16 mx-auto mb-4 text-red-500 dark:text-red-400">
+        <div className="w-16 h-16 mx-auto mb-4 text-error">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
@@ -27,10 +27,10 @@ export default function ArticleError({
             />
           </svg>
         </div>
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+        <h1 className="text-2xl font-bold text-foreground mb-4">
           Error al cargar el artículo
         </h1>
-        <p className="text-slate-600 dark:text-slate-400 mb-6">
+        <p className="text-secondary mb-6">
           Ocurrió un error al cargar el artículo. Por favor, intenta de nuevo.
         </p>
         <div className="flex gap-4 justify-center">

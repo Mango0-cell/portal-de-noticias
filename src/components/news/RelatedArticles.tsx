@@ -18,8 +18,8 @@ export default function RelatedArticles({ sourceUri, excludeId }: RelatedArticle
   if (isError) return null;
 
   return (
-    <section className="mt-12 pt-8 border-t border-slate-200 dark:border-white/10">
-      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
+    <section className="mt-12 pt-8 border-t border-card-border">
+      <h2 className="text-2xl font-bold text-foreground mb-6">
         Related Articles
       </h2>
 
@@ -32,7 +32,7 @@ export default function RelatedArticles({ sourceUri, excludeId }: RelatedArticle
       ) : articles && articles.length > 0 ? (
         <NewsGrid articles={articles} columns={3} priorityCount={0} />
       ) : (
-        <p className="text-slate-500 dark:text-slate-400 text-center py-8">
+        <p className="text-muted text-center py-8">
           No related articles available.
         </p>
       )}

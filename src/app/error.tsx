@@ -17,7 +17,7 @@ export default function Error({
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="max-w-md mx-auto text-center">
-        <div className="w-20 h-20 mx-auto mb-6 text-red-500 dark:text-red-400">
+        <div className="w-20 h-20 mx-auto mb-6 text-error">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
@@ -27,14 +27,14 @@ export default function Error({
             />
           </svg>
         </div>
-        <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
+        <h1 className="text-3xl font-bold text-foreground mb-4">
           Something went wrong!
         </h1>
-        <p className="text-slate-600 dark:text-slate-400 mb-6">
+        <p className="text-secondary mb-6">
           An unexpected error has occurred. Please try again.
         </p>
         {error.message && (
-          <p className="text-sm text-slate-600 dark:text-slate-500 mb-6 p-3 bg-slate-100 dark:bg-slate-800/50 rounded-lg font-mono border border-slate-200 dark:border-white/10">
+          <p className="text-sm text-muted mb-6 p-3 bg-card-bg rounded-lg font-mono border border-card-border">
             {error.message}
           </p>
         )}

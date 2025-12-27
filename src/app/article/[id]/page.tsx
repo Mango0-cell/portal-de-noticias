@@ -29,7 +29,7 @@ export default function ArticlePage({ params }: ArticlePageProps) {
     return (
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-md mx-auto text-center">
-          <div className="w-16 h-16 mx-auto mb-4 text-red-500 dark:text-red-400">
+          <div className="w-16 h-16 mx-auto mb-4 text-error">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
@@ -39,10 +39,10 @@ export default function ArticlePage({ params }: ArticlePageProps) {
               />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">
+          <h1 className="text-2xl font-bold text-foreground mb-4">
             Article not found
           </h1>
-          <p className="text-slate-600 dark:text-slate-400 mb-6">
+          <p className="text-secondary mb-6">
             {(error as Error)?.message || 'We couldn\'t load the requested article.'}
           </p>
           <Button onClick={() => window.history.back()}>
@@ -57,8 +57,8 @@ export default function ArticlePage({ params }: ArticlePageProps) {
     <div className="container mx-auto px-4 py-8">
       <ArticleDetail article={article} />
       <RelatedArticles 
-        sourceUri={article.sourceUri} 
-        excludeId={article.id} 
+        sourceUri={article.source?.uri} 
+        excludeId={article.uri} 
       />
     </div>
   );

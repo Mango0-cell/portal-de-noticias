@@ -1,11 +1,11 @@
 'use client';
 
 import NewsCard from './NewsCard';
-import { TransformedArticle } from '@/types';
+import { NewsArticle } from '@/types';
 import { cn } from '@/lib/utils';
 
 interface NewsGridProps {
-  articles: TransformedArticle[];
+  articles: NewsArticle[];
   columns?: 1 | 2 | 3 | 4;
   priorityCount?: number;
   className?: string;
@@ -51,7 +51,7 @@ export default function NewsGrid({
     <div className={cn('grid gap-6', columnClasses[columns], className)}>
       {articles.map((article, index) => (
         <NewsCard
-          key={article.id}
+          key={article.uri}
           article={article}
           priority={index < priorityCount}
         />

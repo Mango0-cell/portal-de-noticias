@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
@@ -19,8 +19,8 @@ export default function SearchBar({
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(searchParams.get('q') || '');
   const [debouncedQuery, setDebouncedQuery] = useState(query);
+  const lastPushedQuery = useRef<string | null>(searchParams.get('q'));
 
-  // Debounce search query
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedQuery(query);
@@ -29,8 +29,12 @@ export default function SearchBar({
     return () => clearTimeout(timer);
   }, [query]);
 
-  // Update URL when debounced query changes
   useEffect(() => {
+    // Deep comparison: avoid update if query hasn't changed
+    if (debouncedQuery === lastPushedQuery.current) {
+      return;
+    }
+
     const params = new URLSearchParams(searchParams.toString());
     
     if (debouncedQuery) {
@@ -41,9 +45,13 @@ export default function SearchBar({
     
     // Reset to page 1 on new search
     params.delete('page');
+
+    const newUrl = `/search?${params.toString()}`;
     
-    router.push(`/search?${params.toString()}`, { scroll: false });
-  }, [debouncedQuery, router, searchParams]);
+    // Use window.history to avoid hard refresh/rerender
+    window.history.pushState(null, '', newUrl);
+    lastPushedQuery.current = debouncedQuery;
+  }, [debouncedQuery, searchParams]);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -72,11 +80,11 @@ export default function SearchBar({
 
   return (
     <form onSubmit={handleSubmit} className={cn('relative', className)}>
-      <div className="relative bg-white dark:bg-slate-800/50 backdrop-blur-sm border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden transition-colors">
+      <div className="relative bg-card-bg backdrop-blur-sm border border-card-border rounded-xl overflow-hidden transition-colors">
         {/* Search Icon */}
         <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
           <svg
-            className="w-5 h-5 text-slate-400 dark:text-slate-400"
+            className="w-5 h-5 text-muted"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -97,7 +105,7 @@ export default function SearchBar({
           onChange={(e) => setQuery(e.target.value)}
           placeholder={placeholder}
           autoFocus={autoFocus}
-          className="w-full h-14 pl-12 pr-12 bg-transparent border-none text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset transition-all"
+          className="w-full h-14 pl-12 pr-12 bg-transparent border-none text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset transition-all"
           aria-label="Search news"
         />
 
@@ -106,7 +114,7 @@ export default function SearchBar({
           <button
             type="button"
             onClick={handleClear}
-            className="absolute inset-y-0 right-12 flex items-center pr-2 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="absolute inset-y-0 right-12 flex items-center pr-2 text-muted hover:text-foreground transition-colors"
             aria-label="Clear search"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -118,7 +126,7 @@ export default function SearchBar({
         {/* Submit Button */}
         <button
           type="submit"
-          className="absolute inset-y-0 right-0 flex items-center pr-4 text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
+          className="absolute inset-y-0 right-0 flex items-center pr-4 text-primary hover:text-primary-hover transition-colors"
           aria-label="Search"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
