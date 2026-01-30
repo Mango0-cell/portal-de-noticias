@@ -17,15 +17,20 @@ export function LazyImage({ src, alt, width, height, className, fill }: LazyImag
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
+  // Placeholder SVG for missing images
+  const placeholderSvg = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"%3E%3Crect fill="%23e5e7eb" width="400" height="300"/%3E%3Cpath fill="%239ca3af" d="M163 148.5l-37.5 37.5-15-15-45 60h267l-90-120z"/%3E%3Ccircle fill="%239ca3af" cx="127.5" cy="90" r="22.5"/%3E%3C/svg%3E';
+
   if (hasError || !src) {
     return (
       <div className={cn('flex items-center justify-center bg-gray-200 dark:bg-gray-700', className)}>
-        <div className="text-gray-400 text-center p-4">
-          <svg className="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <span className="text-sm">Image not available</span>
-        </div>
+        <Image 
+          src={placeholderSvg}
+          alt={alt}
+          width={width || 400}
+          height={height || 300}
+          className={cn('w-full h-full object-cover', className)}
+          unoptimized
+        />
       </div>
     );
   }
@@ -41,7 +46,11 @@ export function LazyImage({ src, alt, width, height, className, fill }: LazyImag
         width={width}
         height={height}
         fill={fill}
-        className={cn('transition-opacity duration-300', isLoading ? 'opacity-0' : 'opacity-100')}
+        className={cn(
+          'transition-opacity duration-300 object-cover', 
+          isLoading ? 'opacity-0' : 'opacity-100',
+          className
+        )}
         onLoad={() => setIsLoading(false)}
         onError={() => {
           setIsLoading(false);

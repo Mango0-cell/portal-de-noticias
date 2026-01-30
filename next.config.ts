@@ -5,7 +5,32 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: 'newsapi.org',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.newsapi.org',
+      },
+      // Common news image sources
+      {
+        protocol: 'https',
+        hostname: '**.cdn.cnn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.bbci.co.uk',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.nyt.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.wp.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.media',
       },
     ],
   },

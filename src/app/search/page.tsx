@@ -24,7 +24,9 @@ export default function SearchPage() {
     pageSize: ITEMS_PER_PAGE,
   });
 
-  const totalPages = data?.totalResults ? Math.ceil(data.totalResults / ITEMS_PER_PAGE) : 1;
+  const totalPages = data?.totalResults && ITEMS_PER_PAGE > 0 
+    ? Math.ceil(data.totalResults / ITEMS_PER_PAGE) 
+    : 1;
 
   // Update URL when search params change
   useEffect(() => {
@@ -94,11 +96,18 @@ export default function SearchPage() {
 
         {/* Pagination */}
         {!isLoading && data?.articles && data.articles.length > 0 && totalPages > 1 && (
-          <Pagination
-            currentPage={currentPage}
-            totalPages={Math.min(totalPages, 10)} // Limit to 10 pages
-            onPageChange={setCurrentPage}
-          />
+          <>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={Math.min(totalPages, 10)} // Limit to 10 pages
+              onPageChange={setCurrentPage}
+            />
+            {totalPages > 10 && (
+              <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
+                Showing first 10 pages of {totalPages} total pages
+              </p>
+            )}
+          </>
         )}
       </div>
     </div>

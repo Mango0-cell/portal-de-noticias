@@ -10,11 +10,12 @@ export default function ArticlePage() {
   const params = useParams();
   const articleUrl = decodeURIComponent(params.id as string);
   
-  // Fetch latest news to find the article
-  const { data, error, isLoading } = useGetLatestNewsQuery({ page: 1, pageSize: 20 });
+  // Fetch more articles to increase chance of finding the requested one
+  // In a production app, consider implementing proper article caching or a dedicated article endpoint
+  const { data, error, isLoading } = useGetLatestNewsQuery({ page: 1, pageSize: 100 });
   
   const article = data?.articles.find(a => a.url === articleUrl);
-  const relatedArticles = data?.articles.filter(a => a.url !== articleUrl) || [];
+  const relatedArticles = data?.articles.filter(a => a.url !== articleUrl).slice(0, 8) || [];
 
   if (isLoading) {
     return (
@@ -42,6 +43,9 @@ export default function ArticlePage() {
             </h2>
             <p className="text-gray-600 dark:text-gray-400">
               The article you&apos;re looking for doesn&apos;t exist or has been removed.
+            </p>
+            <p className="text-gray-500 dark:text-gray-500 text-sm mt-2">
+              Note: Article pages work best with fresh articles from the home page.
             </p>
           </div>
         </div>

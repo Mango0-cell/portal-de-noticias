@@ -17,7 +17,7 @@ export function NewsCard({ article }: NewsCardProps) {
         {/* Image */}
         <div className="relative h-48 w-full">
           <LazyImage
-            src={article.image || '/placeholder-news.jpg'}
+            src={article.image || ''}
             alt={article.title}
             fill
             className="object-cover"
