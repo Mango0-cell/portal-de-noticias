@@ -24,7 +24,7 @@ export default function Error({
           Failed to load article
         </h2>
         <p className="text-gray-600 dark:text-gray-400 mb-6">
-          We couldn't load this article. Please try again or return to the home page.
+          We couldn&apos;t load this article. Please try again or return to the home page.
         </p>
         <div className="flex gap-4 justify-center">
           <Button onClick={reset}>Try again</Button>

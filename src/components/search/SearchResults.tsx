@@ -28,7 +28,7 @@ export function SearchResults({ articles, searchQuery, isLoading }: SearchResult
         </h3>
         <p className="text-gray-600 dark:text-gray-400">
           {searchQuery 
-            ? `We couldn't find any articles matching "${searchQuery}"`
+            ? `We couldn't find any articles matching &quot;${searchQuery}&quot;`
             : 'Try searching for something or select a different category'
           }
         </p>
@@ -40,7 +40,7 @@ export function SearchResults({ articles, searchQuery, isLoading }: SearchResult
     <div>
       {searchQuery && (
         <p className="text-gray-600 dark:text-gray-400 mb-6">
-          Found {articles.length} article{articles.length !== 1 ? 's' : ''} for "{searchQuery}"
+          Found {articles.length} article{articles.length !== 1 ? 's' : ''} for &quot;{searchQuery}&quot;
         </p>
       )}
       <NewsGrid articles={articles} />

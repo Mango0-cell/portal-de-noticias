@@ -8,8 +8,10 @@ export function useMediaQuery(query: string): boolean {
   useEffect(() => {
     const media = window.matchMedia(query);
     
-    // Set initial value
-    setMatches(media.matches);
+    // Update initial state
+    if (media.matches !== matches) {
+      setMatches(media.matches);
+    }
 
     // Create listener
     const listener = (event: MediaQueryListEvent) => {
@@ -21,6 +23,7 @@ export function useMediaQuery(query: string): boolean {
 
     // Cleanup
     return () => media.removeEventListener('change', listener);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   return matches;

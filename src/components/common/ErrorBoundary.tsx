@@ -35,7 +35,7 @@ export class ErrorBoundary extends Component<Props, State> {
               Something went wrong
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
-              We're sorry for the inconvenience. Please try refreshing the page.
+              We&apos;re sorry for the inconvenience. Please try refreshing the page.
             </p>
             <button
               onClick={() => this.setState({ hasError: false })}
